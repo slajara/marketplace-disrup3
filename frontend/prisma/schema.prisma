@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  address      String @id
+  userName     String @unique
+  role         String @default("USER")
+  description  String @default("hola hola hola")
+  profileImage String @default("https://i.seadn.io/gcs/files/a719339f71b8248e3803192b6a30d2e0.png?auto=format&dpr=1&w=1000")
+  bannerImage  String @default("https://i.ytimg.com/vi/Lav15rWDXUk/maxresdefault.jpg")
+}
+
+model aaCollection {
+  address      String @id
+  collectionName     String @unique
+  role         String @default("USER")
+  description  String @default("hola hola hola")
+  profileImage String @default("https://i.seadn.io/gcs/files/a719339f71b8248e3803192b6a30d2e0.png?auto=format&dpr=1&w=1000")
+  bannerImage  String @default("https://i.ytimg.com/vi/Lav15rWDXUk/maxresdefault.jpg")
+}
+
+model Collection {
+  owner String?
+  address String @id
+  listings Listing[]
+}
+
+model Listing {
+  id Int @id @default(autoincrement())
+  collection Collection? @relation(fields: [nftAddress], references: [address])
+  nftAddress String
+  tokenId Int
+  paytoken String
+  price BigInt
+  seller String
+}
